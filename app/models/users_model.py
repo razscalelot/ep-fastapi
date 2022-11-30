@@ -46,10 +46,3 @@ class Users(Document):
 
     class Collection:
         name = "users"
-
-# 0 - Super Admin
-# 1 - Admin
-# 2 - Sub Admin
-# 3 - Excutive
-# 5 - Organizer
-# 4 - User
