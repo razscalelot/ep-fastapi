@@ -3,8 +3,8 @@
 # 1 - Admin
 # 2 - Sub Admin
 # 3 - Excutive
-# 5 - Organizer
-# 4 - User
+# 4  - Organizer
+# 5 - User
 
 #Permissions
 # 1 - Add

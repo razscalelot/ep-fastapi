@@ -7,16 +7,17 @@ from typing import Optional
 
 class Users(Document):
     user_id: UUID = Field(default_factory=uuid4)
-    name: Indexed(str)
+    name: Optional[str] = None
     email: Indexed(EmailStr, unique=True)
     phone_no: Indexed(str, unique=True)
     password: str
     address: Optional[str] = None
-    profile_pic = Optional[str] = None
+    profile_pic: Optional[str] = None
     country_code: Optional[str] = None
-    refer_code: Optional[str] = None
-    my_refer_code: Optional[str] = None
+    refer_code: Optional[int] = None
+    my_refer_code: Optional[int] = None
     fcm_token: Optional[str] = None
+    user_type: Optional[int] = 5
     status: Optional[bool] = False
     createdBy: Optional[int] = None
     updatedBy: Optional[int] = None

@@ -2,6 +2,9 @@ from fastapi import FastAPI
 from core.config import settings
 from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
+from models.users_model import Users
+from models.permissions_model import Permissions, UserPermissions
+from api.v1.router import router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -16,16 +19,13 @@ async def app_init():
     db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
 
     await init_beanie(
-        database=db_client.ap_fastapi,
+        database=db_client.ep_fastapi,
         document_models=[
-
+            Users,
+            Permissions,
+            UserPermissions,
         ]
     )
 
 
-# 0 - Super Admin
-# 1 - Admin
-# 2 - Sub Admin
-# 3 - Excutive
-# 4 - Organizer
-# 5 - User
+app.include_router(router, prefix=settings.API_VI_STR)
