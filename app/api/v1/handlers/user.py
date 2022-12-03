@@ -7,7 +7,6 @@ user_router = APIRouter()
 
 @user_router.post("/create", summary="Create new user", response_model=UserOut)
 async def create_user(data: UserAuth):
-    print('data', data)
     try:
         return await UserService.create_user(data)
     except pymongo.errors.DuplicateKeyError:
