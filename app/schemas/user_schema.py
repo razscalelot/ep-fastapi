@@ -1,18 +1,15 @@
-from typing import Optional
-from pydantic import BaseModel, EmailStr, Field
-from uuid import UUID
+def userEntity(item) -> dict:
+    return {
+        "id": str(item["_id"]),
+        "name": item["name"],
+        "email": item["email"],
+        "phone_no": item["phone_no"],
+        "address": item["address"],
+        "profile_pic": item["profile_pic"],
+        "country_code": item["country_code"],
+        "my_refer_code": item["my_refer_code"]
+    }
 
-class UserAuth(BaseModel):
-    email: EmailStr = Field(..., description="user email")
-    phone_no: str = Field(..., min_length=5, max_length=50, description="user phone no")
-    password: str = Field(..., min_length=5, max_length=25, description="user password")
 
-class UserOut(BaseModel):
-    user_id: UUID
-    name: Optional[str]
-    email: EmailStr
-    phone_no: str
-    address: Optional[str]
-    profile_pic: Optional[str]
-    country_code: Optional[str]
-    my_refer_code: Optional[str]
+def usersEntity(entity) -> list:
+    return [userEntity(item) for item in entity]

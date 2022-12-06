@@ -3,7 +3,7 @@ from core.config import settings
 from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 from models.users_model import Users
-from models.permissions_model import Permissions, UserPermissions
+# from models.permissions_model import Permissions, UserPermissions
 from api.v1.router import router
 
 app = FastAPI(
@@ -12,20 +12,18 @@ app = FastAPI(
 )
 
 
-@app.on_event("startup")
-async def app_init():
-    """ initialize crucial application services """
+# @app.on_event("startup")
+# async def app_init():
+#     """ initialize crucial application services """
 
-    db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
+#     db_client = AsyncIOMotorClient(settings.MONGO_CONNECTION_STRING)
 
-    await init_beanie(
-        database=db_client.ep_fastapi,
-        document_models=[
-            Users,
-            Permissions,
-            UserPermissions,
-        ]
-    )
+#     await init_beanie(
+#         database=db_client.ep_fastapi,
+#         document_models=[
+#             Users
+#         ]
+#     )
 
 
 app.include_router(router, prefix=settings.API_VI_STR)

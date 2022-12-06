@@ -1,49 +1,20 @@
 from datetime import datetime
-from uuid import UUID, uuid4
-from beanie import Document, Indexed
-from pydantic import Field, EmailStr
+from pydantic import BaseModel
 from typing import Optional
 
 
-class Users(Document):
-    user_id: UUID = Field(default_factory=uuid4)
-    name: Optional[str] = None
-    email: Indexed(EmailStr, unique=True)
-    phone_no: Indexed(str, unique=True)
+class Users(BaseModel):
+    name: str
+    email: str
+    phone_no: str
     password: str
-    address: Optional[str] = None
-    profile_pic: Optional[str] = None
-    country_code: Optional[str] = None
-    refer_code: Optional[int] = None
-    my_refer_code: Optional[int] = None
-    fcm_token: Optional[str] = None
-    user_type: Optional[int] = 5
-    status: Optional[bool] = False
-    createdBy: Optional[int] = None
-    updatedBy: Optional[int] = None
-
-    def __repr__(self) -> str:
-        return f"<User {self.email}>"
-
-    def __str__(self) -> str:
-        return self.email
-
-    def __hash__(self) -> int:
-        return hash(self.email)
-
-    def __eq__(self, other: object) -> bool:
-        if isinstance(other, Users):
-            return self.email == other.email
-        return False
-
-    @property
-    def create(self) -> datetime:
-        return self.id.generation_time
-
-
-    @classmethod
-    async def by_email(self, email: str) -> "Users":
-        return await self.find_one(self.email == email)
-
-    class Collection:
-        name = "users"
+    address: Optional[str]
+    profile_pic: Optional[str]
+    country_code: Optional[str]
+    refer_code: Optional[int]
+    my_refer_code: Optional[int]
+    fcm_token: Optional[str]
+    user_type: Optional[int]
+    status: Optional[bool]
+    createdBy: Optional[str]
+    updatedBy: Optional[str]
