@@ -1,6 +1,7 @@
 from typing import List
 from pydantic import BaseSettings, AnyHttpUrl
 from decouple import config
+from pymongo import MongoClient
 
 
 class Settings(BaseSettings):

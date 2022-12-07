@@ -1,11 +1,9 @@
-# from fastapi import HTTPException, status
-# from pydantic import BaseModel, EmailStr, Field
-# from uuid import UUID
+def permissionEntity(item) -> dict:
+    return {
+        "id": str(item["_id"]),
+        "permission_name": item["permission_name"],
+    }
 
-# class PermissionSchema(BaseModel):
-#     permission_name: str = Field(..., description="permission name")
 
-# class PermissionSchemaOut(BaseModel):
-#     status_code=status.HTTP_201_CREATED
-#     detail="Created new permission."
-#     permission_name: str
+def permissionsEntity(entity) -> list:
+    return [permissionEntity(item) for item in entity]

@@ -1,12 +1,12 @@
 from fastapi.responses import JSONResponse
-from fastapi import HTTPException, status
+from fastapi import status
 
 
 def onSuccess(message, result):
     return JSONResponse({
         "Message": message,
         "Data": result,
-        "Status": status.HTTP_400_BAD_REQUEST,
+        "Status": status.HTTP_200_OK,
         "IsSuccess": True
     })
 

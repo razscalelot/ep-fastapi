@@ -1,5 +1,5 @@
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 
 
@@ -18,3 +18,4 @@ class Users(BaseModel):
     status: Optional[bool]
     createdBy: Optional[str]
     updatedBy: Optional[str]
+    
