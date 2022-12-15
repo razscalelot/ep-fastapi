@@ -34,21 +34,17 @@ def create_access_token(subject: Union[str, Any], expires_delta: int = None) -> 
     else:
         expires_delta = datetime.utcnow(
         ) + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-    print("str(subject)", str(subject))
 
-    print("user", str(subject))
     checkPermission = db.userpermissions.find({"$or": [{"user_id": ObjectId(subject)}]})
-    print("checkPermission", checkPermission)
+
     permissionList = []
     for i in checkPermission:
         id = db.permissions.find_one({"$or": [{"_id": ObjectId(i["permission_id"])}]})
-        permissionList.append(id["_id"])    
-    print("permissionList", permissionList)
-    for j in permissionList:
-        print("j", j)
-    to_encode = {"exp": expires_delta, "sub": str(subject), "extra": [item for item in permissionList]}
-    encoded_jwt = jwt.encode(
-        to_encode, settings.JWT_SECRET_KEY, settings.ALGORITHM)
+        permissionList.append(str(id["_id"]))    
+
+    to_encode = {"exp": expires_delta, "sub": str(subject), "ext": permissionList}
+    
+    encoded_jwt = jwt.encode(to_encode, settings.JWT_SECRET_KEY, settings.ALGORITHM)
     return encoded_jwt
 
 
@@ -62,6 +58,14 @@ async def get_current_user(token: str = Depends(reuseable_oauth)) -> Users:
     except (jwt.JWTError, ValidationError):
         return badRequest("Could not validate credentials")
 
+    print("payload", payload["ext"])
+    access = db.permissions.find({"_id": [item for item in payload["ext"]]})
+    
+    # access = []
+    # for i in payload["ext"]:
+    #     per = db.permissions.find_one({"$or": [{"_id": ObjectId(i)}]})
+    #     access.append(per)
+    # print("access", access)
     user = userEntity(db.users.find_one({"_id": ObjectId(payload["sub"])}))
    
     if not user:

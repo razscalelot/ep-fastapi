@@ -137,9 +137,10 @@ async def users_verify_otp(data: dict = Body(...)):
 async def login_user(data: dict = Body(...)):
     if data["phone_no"] != '' and len(data["phone_no"]) == 10 and data["password"] != '' and len(data["password"]) >= 6:
         try:
-            userExist = db.users.find_one({"$or": [{"phone_no": data["phone_no"]}, {"status": True}, {"mobileverified": True}]})
+            userExist = db.users.find_one({"$and": [{"phone_no": data["phone_no"]}, {"status": True}, {"mobileverified": True}]})
             if userExist != '' and userExist["status"] == True:
                 decPassword = verify_password(password=data["password"], hashed_pass=userExist["password"])
+                print("decPassword", decPassword)
                 if decPassword == True:
                     return onSuccess('User login successfully!', {"token" : create_access_token(userExist["_id"])})
                 else:
